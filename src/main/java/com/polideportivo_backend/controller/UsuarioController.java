@@ -1,66 +1,51 @@
 package com.polideportivo_backend.controller;
 
-import com.polideportivo_backend.dto.ClienteDTO;
-import com.polideportivo_backend.dto.UsuarioDTO;
-import com.polideportivo_backend.service.IUsuarioService;
-import jakarta.validation.Valid;
+import com.polideportivo_backend.model.Usuario;
+import com.polideportivo_backend.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/api/usuarios")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioController {
 
-    private final IUsuarioService service;
+    private final UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<List<ClienteDTO>> findAll() throws Exception {
-        List<ClienteDTO> list = service.findAllDTO();
-        return ResponseEntity.ok(list);
+    public ResponseEntity<List<Usuario>> getAllUsuarios() {
+        return ResponseEntity.ok(usuarioService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> findById(@PathVariable("id") Integer id) throws Exception {
-        UsuarioDTO obj = service.findByIdDTO(id);
-        return ResponseEntity.ok(obj);
-    }
-
-    @GetMapping("/username/{username}")
-    public ResponseEntity<UsuarioDTO> findByUsername(@PathVariable("username") String username) throws Exception {
-        UsuarioDTO obj = service.findByUsername(username);
-        return ResponseEntity.ok(obj);
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
+        return usuarioService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> save(@Valid @RequestBody UsuarioDTO dto) throws Exception {
-        UsuarioDTO obj = service.saveDTO(dto);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdUsuario()).toUri();
-        return ResponseEntity.created(location).body(obj);
+    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
+        return ResponseEntity.ok(usuarioService.save(usuario));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody UsuarioDTO dto) throws Exception {
-        dto.setIdUsuario(id);
-        UsuarioDTO obj = service.updateDTO(dto, id);
-        return ResponseEntity.ok(obj);
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
+        return ResponseEntity.ok(usuarioService.update(id, usuario));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
+        usuarioService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/{id}/estado")
-    public ResponseEntity<Void> changeStatus(@PathVariable("id") Integer id, @RequestParam Boolean estado) throws Exception {
-        service.changeStatus(id, estado);
-        return ResponseEntity.ok().build();
+    @GetMapping("/correo/{correo}")
+    public ResponseEntity<Usuario> getUsuarioByCorreo(@PathVariable String correo) {
+        return usuarioService.findByCorreo(correo)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

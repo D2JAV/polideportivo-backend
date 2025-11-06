@@ -1,0 +1,11 @@
+package com.polideportivo_backend.exception;
+
+public class ResourceNotFoundException extends ModelNotFoundException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+
+    public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
+        super(String.format("%s no encontrado con %s : '%s'", resourceName, fieldName, fieldValue));
+    }
+}

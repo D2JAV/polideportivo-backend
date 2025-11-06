@@ -1,59 +1,50 @@
 package com.polideportivo_backend.model;
 
-import com.polideportivo_backend.dto.ReservaDTO;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reserva")
+@Table(name = "reservas")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Reserva extends ReservaDTO {
+public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idReserva;
+    private Long idReserva;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
     @ManyToOne
+    @JoinColumn(name = "id_campo", nullable = false)
+    private Campo campo;
+
+    @ManyToOne
+    @JoinColumn(name = "id_actividad", nullable = false)
+    private Actividad actividad;
+
+    @Column(name = "fecha_reserva", nullable = false)
+    private LocalDate fechaReserva;
+
+    @Column(name = "hora_inicio", nullable = false)
+    private LocalTime horaInicio;
+
+    @Column(name = "duracion_horas", nullable = false)
+    private Double duracionHoras;
+
+    @Column(name = "monto_total", nullable = false)
+    private Double montoTotal;
+
+    @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    @NotBlank
-    @Column(nullable = false)
-    private String tipoDeporte;
+    @Column(length = 20)
+    private String estado = "PENDIENTE"; // PENDIENTE, CONFIRMADA, CANCELADA, COMPLETADA
 
-    @NotNull
-    @Column(nullable = false)
-    private LocalDate fechaReserva;
-
-    @NotNull
-    @Column(nullable = false)
-    private LocalTime horaInicio;
-
-    @NotNull
-    @Column(nullable = false)
-    private Double duracionHoras;
-
-    @NotNull
-    @Column(nullable = false)
-    private BigDecimal montoTotal;
-
-    private String estado;
-
-    private String observaciones;
-
-    private LocalDateTime fechaCreacion;
+    @Column(name = "fecha_creacion")
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
 }
