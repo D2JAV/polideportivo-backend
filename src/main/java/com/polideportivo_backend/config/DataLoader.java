@@ -28,6 +28,8 @@ public class DataLoader implements CommandLineRunner {
 
     private void cargarUsuariosIniciales() {
         if (usuarioRepository.count() == 0) {
+            System.out.println("👤 Cargando usuarios iniciales...");
+
             // Admin
             Usuario admin = new Usuario();
             admin.setNombreUsuario("admin");
@@ -59,11 +61,15 @@ public class DataLoader implements CommandLineRunner {
             Trabajador trabajadorEntidad = new Trabajador();
             trabajadorEntidad.setUsuario(trabajador);
             trabajadorRepository.save(trabajadorEntidad);
+
+            System.out.println("✅ Usuarios cargados: " + usuarioRepository.count());
         }
     }
 
     private void cargarActividades() {
         if (actividadRepository.count() == 0) {
+            System.out.println("⚽ Cargando actividades...");
+
             Actividad futbol = new Actividad();
             futbol.setNombre("FUTBOL");
             futbol.setDescripcion("Fútbol 11 y fútbol 7");
@@ -74,40 +80,52 @@ public class DataLoader implements CommandLineRunner {
             voley.setDescripcion("Vóley playa y vóley sala");
             actividadRepository.save(voley);
 
-            Actividad basquet = new Actividad();
-            basquet.setNombre("BASQUET");
-            basquet.setDescripcion("Básquetbol cancha completa");
-            actividadRepository.save(basquet);
+            System.out.println("✅ Actividades cargadas: " + actividadRepository.count());
         }
     }
 
     private void cargarCampos() {
         if (campoRepository.count() == 0) {
-            Campo campo1 = new Campo();
-            campo1.setNombre("Cancha Principal Fútbol");
-            campo1.setPrecioPorHora(new BigDecimal("80.00"));
-            campo1.setEstado("DISPONIBLE");
-            campo1.setDescripcion("Cancha de fútbol 11 con césped natural");
-            campoRepository.save(campo1);
+            System.out.println("🏟️ Cargando campos...");
 
-            Campo campo2 = new Campo();
-            campo2.setNombre("Cancha Auxiliar Fútbol 7");
-            campo2.setPrecioPorHora(new BigDecimal("60.00"));
-            campo2.setEstado("DISPONIBLE");
-            campo2.setDescripcion("Cancha de fútbol 7 con césped sintético");
-            campoRepository.save(campo2);
+            // Campos de FÚTBOL
+            Campo campoFutbol1 = new Campo();
+            campoFutbol1.setNombre("Cancha Principal Fútbol");
+            campoFutbol1.setPrecioPorHora(new BigDecimal("80.00"));
+            campoFutbol1.setEstado("DISPONIBLE");
+            campoFutbol1.setDescripcion("Cancha de fútbol 11 con césped natural");
+            campoRepository.save(campoFutbol1);
 
-            Campo campo3 = new Campo();
-            campo3.setNombre("Cancha Vóley Playa");
-            campo3.setPrecioPorHora(new BigDecimal("40.00"));
-            campo3.setEstado("DISPONIBLE");
-            campo3.setDescripcion("Cancha de vóley playa con arena profesional");
-            campoRepository.save(campo3);
+            Campo campoFutbol2 = new Campo();
+            campoFutbol2.setNombre("Cancha Auxiliar Fútbol 7");
+            campoFutbol2.setPrecioPorHora(new BigDecimal("60.00"));
+            campoFutbol2.setEstado("DISPONIBLE");
+            campoFutbol2.setDescripcion("Cancha de fútbol 7 con césped sintético");
+            campoRepository.save(campoFutbol2);
+
+            // Campos de VÓLEY
+            Campo campoVoley1 = new Campo();
+            campoVoley1.setNombre("Cancha Vóley Playa 1");
+            campoVoley1.setPrecioPorHora(new BigDecimal("40.00"));
+            campoVoley1.setEstado("DISPONIBLE");
+            campoVoley1.setDescripcion("Cancha de vóley playa profesional");
+            campoRepository.save(campoVoley1);
+
+            Campo campoVoley2 = new Campo();
+            campoVoley2.setNombre("Cancha Vóley Sala");
+            campoVoley2.setPrecioPorHora(new BigDecimal("35.00"));
+            campoVoley2.setEstado("DISPONIBLE");
+            campoVoley2.setDescripcion("Cancha de vóley sala techada");
+            campoRepository.save(campoVoley2);
+
+            System.out.println("✅ Campos cargados: " + campoRepository.count());
         }
     }
 
     private void cargarClientes() {
         if (clienteRepository.count() == 0) {
+            System.out.println("👥 Cargando clientes...");
+
             Cliente cliente1 = new Cliente();
             cliente1.setNombre("Carlos");
             cliente1.setApellido("Gómez");
@@ -123,6 +141,16 @@ public class DataLoader implements CommandLineRunner {
             cliente2.setTelefono("987654322");
             cliente2.setCorreo("maria@gmail.com");
             clienteRepository.save(cliente2);
+
+            Cliente cliente3 = new Cliente();
+            cliente3.setNombre("Roberto");
+            cliente3.setApellido("Silva");
+            cliente3.setDni("11223344");
+            cliente3.setTelefono("987654323");
+            cliente3.setCorreo("roberto@gmail.com");
+            clienteRepository.save(cliente3);
+
+            System.out.println("✅ Clientes cargados: " + clienteRepository.count());
         }
     }
 }

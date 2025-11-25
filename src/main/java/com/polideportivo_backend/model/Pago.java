@@ -1,19 +1,27 @@
 package com.polideportivo_backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "pagos")
-@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Pago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long idPago;
 
     @ManyToOne
-    @JoinColumn(name = "id_reserva", nullable = false)
+    @JoinColumn(name = "id_reserva", nullable = false,
+            foreignKey = @ForeignKey(name = "FK_PAGO_RESERVA"))
     private Reserva reserva;
 
     @Column(name = "fecha_pago")
@@ -31,7 +39,8 @@ public class Pago {
     private String estadoPago = "PENDIENTE"; // PENDIENTE, COMPLETADO, ANULADO
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = false,
+            foreignKey = @ForeignKey(name = "FK_PAGO_USUARIO"))
     private Usuario usuario;
 
     private String observaciones;

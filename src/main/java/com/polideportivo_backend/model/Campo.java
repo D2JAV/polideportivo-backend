@@ -1,13 +1,22 @@
 package com.polideportivo_backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "campos")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Campo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long idCampo;
 
     @Column(nullable = false, length = 100)
@@ -21,19 +30,4 @@ public class Campo {
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
-
-    public Long getIdCampo() { return idCampo; }
-    public void setIdCampo(Long idCampo) { this.idCampo = idCampo; }
-
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-
-    public BigDecimal getPrecioPorHora() { return precioPorHora; }
-    public void setPrecioPorHora(BigDecimal precioPorHora) { this.precioPorHora = precioPorHora; }
-
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
-
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 }

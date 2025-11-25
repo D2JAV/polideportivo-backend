@@ -1,29 +1,39 @@
 package com.polideportivo_backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reservas")
-@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long idReserva;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente", nullable = false)
+    @JoinColumn(name = "id_cliente", nullable = false,
+            foreignKey = @ForeignKey(name = "FK_RESERVA_CLIENTE"))
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "id_campo", nullable = false)
+    @JoinColumn(name = "id_campo", nullable = false,
+            foreignKey = @ForeignKey(name = "FK_RESERVA_CAMPO"))
     private Campo campo;
 
     @ManyToOne
-    @JoinColumn(name = "id_actividad", nullable = false)
+    @JoinColumn(name = "id_actividad", nullable = false,
+            foreignKey = @ForeignKey(name = "FK_RESERVA_ACTIVIDAD"))
     private Actividad actividad;
 
     @Column(name = "fecha_reserva", nullable = false)
@@ -39,7 +49,8 @@ public class Reserva {
     private Double montoTotal;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = false,
+            foreignKey = @ForeignKey(name = "FK_RESERVA_USUARIO"))
     private Usuario usuario;
 
     @Column(length = 20)

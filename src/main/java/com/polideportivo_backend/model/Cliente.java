@@ -1,15 +1,22 @@
 package com.polideportivo_backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "clientes")
-@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long idCliente;
 
     @Column(nullable = false, length = 100)
