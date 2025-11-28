@@ -14,4 +14,6 @@ public interface UsuarioService {
     Optional<Usuario> findByNombreUsuario(String nombreUsuario);
     Boolean existsByCorreo(String correo);
     Boolean existsByNombreUsuario(String nombreUsuario);
+
+    Optional<Usuario> validar (String correo, String password);
 }

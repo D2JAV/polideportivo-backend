@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/administradores")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class AdministradorController {
 
     private final AdministradorService administradorService;

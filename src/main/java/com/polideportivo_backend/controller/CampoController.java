@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/campos")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class CampoController {
 
     private final CampoService campoService;

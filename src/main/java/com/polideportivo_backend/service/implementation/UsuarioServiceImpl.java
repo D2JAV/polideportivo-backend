@@ -38,4 +38,18 @@ public class UsuarioServiceImpl extends GenericService<Usuario, Long> implements
     public Boolean existsByNombreUsuario(String nombreUsuario) {
         return repo.existsByNombreUsuario(nombreUsuario);
     }
+
+    @Override
+    public Optional<Usuario> validar (String correo, String password) {
+        Optional<Usuario> usuarioOpt = repo.findByCorreo(correo);
+
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            if (usuario.getPassword().equals(password)) {
+                return usuarioOpt;
+            }
+        }
+        return Optional.empty();
+    }
+
 }

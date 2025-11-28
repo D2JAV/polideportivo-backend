@@ -1,5 +1,6 @@
 package com.polideportivo_backend.controller;
 
+import com.polideportivo_backend.dto.CredencialesDTO;
 import com.polideportivo_backend.dto.UsuarioDTO;
 import com.polideportivo_backend.model.Usuario;
 import com.polideportivo_backend.service.UsuarioService;
@@ -17,13 +18,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/usuarios")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
     @Qualifier("defaultMapper")
     private final ModelMapper modelMapper;
+
+
 
     @GetMapping
     public ResponseEntity<List<UsuarioDTO>> findAll() {
@@ -67,6 +70,15 @@ public class UsuarioController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/validar")
+    public ResponseEntity<UsuarioDTO> validar(@RequestBody CredencialesDTO credencialesDTO) {
+        return usuarioService.validar(credencialesDTO.getCorreo(),credencialesDTO.getPassword())
+                .map(this::convertToDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
     private UsuarioDTO convertToDto(Usuario obj){
         return modelMapper.map(obj, UsuarioDTO.class);
