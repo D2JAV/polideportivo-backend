@@ -2,6 +2,7 @@ package com.polideportivo_backend.controller;
 
 import com.polideportivo_backend.dto.CredencialesDTO;
 import com.polideportivo_backend.dto.UsuarioDTO;
+import com.polideportivo_backend.dto.UsuarioUpdateDTO;
 import com.polideportivo_backend.model.Usuario;
 import com.polideportivo_backend.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -26,8 +27,6 @@ public class UsuarioController {
     @Qualifier("defaultMapper")
     private final ModelMapper modelMapper;
 
-
-
     @GetMapping
     public ResponseEntity<List<UsuarioDTO>> findAll() {
         List<UsuarioDTO> list = usuarioService.findAll().stream()
@@ -44,16 +43,25 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody UsuarioDTO dto) {
+    public ResponseEntity<UsuarioDTO> save(@Valid @RequestBody UsuarioDTO dto) {
         Usuario obj = usuarioService.save(convertToEntity(dto));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(obj.getIdUsuario()).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(convertToDto(obj));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @Valid @RequestBody UsuarioDTO dto) {
-        Usuario obj = usuarioService.update(id, convertToEntity(dto));
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO dto) {
+        // Convertir UsuarioUpdateDTO a Usuario
+        Usuario usuarioActualizado = new Usuario();
+        usuarioActualizado.setNombre(dto.getNombre());
+        usuarioActualizado.setApellido(dto.getApellido());
+        usuarioActualizado.setRol(dto.getRol());
+        usuarioActualizado.setTelefono(dto.getTelefono());
+        usuarioActualizado.setEstado(dto.getEstado());
+        usuarioActualizado.setPassword(dto.getPassword());
+
+        Usuario obj = usuarioService.update(id, usuarioActualizado);
         return ResponseEntity.ok(convertToDto(obj));
     }
 
