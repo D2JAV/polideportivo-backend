@@ -1,9 +1,7 @@
 package com.polideportivo_backend.service.implementation;
 
 import com.polideportivo_backend.exception.ResourceNotFoundException;
-import com.polideportivo_backend.model.Trabajador;
 import com.polideportivo_backend.model.Usuario;
-import com.polideportivo_backend.repository.IGenericRepository;
 import com.polideportivo_backend.repository.UsuarioRepository;
 import com.polideportivo_backend.service.UsuarioService;
 import lombok.RequiredArgsConstructor;

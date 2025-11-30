@@ -54,7 +54,7 @@ public class Reserva {
     private Usuario usuario;
 
     @Column(length = 20)
-    private String estado = "PENDIENTE"; // PENDIENTE, CONFIRMADA, CANCELADA, COMPLETADA
+    private String estado = "PENDIENTE";
 
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion = LocalDateTime.now();

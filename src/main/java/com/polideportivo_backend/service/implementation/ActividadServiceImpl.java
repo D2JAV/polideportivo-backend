@@ -5,6 +5,7 @@ import com.polideportivo_backend.repository.ActividadRepository;
 import com.polideportivo_backend.repository.IGenericRepository;
 import com.polideportivo_backend.service.ActividadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,8 +16,8 @@ public class ActividadServiceImpl extends GenericService<Actividad, Long> implem
     private final ActividadRepository repo;
 
     @Override
-    protected IGenericRepository<Actividad, Long> getRepo() {
-        return (IGenericRepository<Actividad, Long>) repo;
+    protected JpaRepository<Actividad, Long> getRepo() {
+        return repo;
     }
 
     @Override
