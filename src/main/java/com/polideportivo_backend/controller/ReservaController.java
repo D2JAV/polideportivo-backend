@@ -42,11 +42,11 @@ public class ReservaController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody ReservaDTO dto) {
+    public ResponseEntity<ReservaDTO> save(@Valid @RequestBody ReservaDTO dto) {
         Reserva obj = reservaService.save(convertToEntity(dto));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(obj.getIdReserva()).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(convertToDto(obj));
     }
 
     @PutMapping("/{id}")
