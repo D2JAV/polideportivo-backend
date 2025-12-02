@@ -21,8 +21,30 @@ public class DataLoader implements CommandLineRunner {
         cargarActividades();
         cargarCampos();
         cargarClientes();
+        cargarUsuarios ();
     }
+    private void cargarUsuarios() {
+        if (usuarioRepository.count() == 0) {
+            System.out.println("Cargando usuarios...");
 
+            Usuario usuario = new Usuario();
+            usuario.setApellido("-");
+            usuario.setCorreo("admin@polideportivo.com");
+            usuario.setDni("-");
+            usuario.setEstado(true);
+            usuario.setNombre("Admin");
+            usuario.setNombreUsuario("Admin");
+            usuario.setPassword("123456");
+            usuario.setRol("Admin");
+            usuario.setTelefono("-");
+
+
+            usuarioRepository.save(usuario);
+
+
+            System.out.println("✅ Usuario cargado: " + actividadRepository.count());
+        }
+    }
     private void cargarActividades() {
         if (actividadRepository.count() == 0) {
             System.out.println("⚽ Cargando actividades...");
